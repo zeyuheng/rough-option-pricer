@@ -1,0 +1,26 @@
+seed: 42
+option:
+  kind: put
+  exercise: american
+simulation:
+  n_paths: 20000
+  n_steps: 50
+  antithetic: true
+rough_bergomi:
+  hurst: 0.10
+  eta: 1.80
+  rho: -0.70
+  xi0: 0.04
+lsmc:
+  basis: laguerre
+  degree: 3
+dataset:
+  n_train: 5000
+  n_test: 1000
+meta_model:
+  hidden_sizes: [128, 64]
+  dropout: 0.10
+  epochs: 100
+  learning_rate: 0.001
+  mc_samples: 100
+

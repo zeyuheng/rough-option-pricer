@@ -44,6 +44,7 @@ class LSMCPricer:
         cashflows = payoff(paths[:, -1], contract).astype(float)
         exercise_times = np.full(paths.shape[0], paths.shape[1] - 1, dtype=int)
         boundaries: list[tuple[int, float]] = []
+        condition_numbers: list[float] = []
 
         for step in range(paths.shape[1] - 2, 0, -1):
             immediate = payoff(paths[:, step], contract).astype(float)
@@ -55,6 +56,7 @@ class LSMCPricer:
             x = paths[in_money, step]
             y = cashflows[in_money]
             basis_matrix = design_matrix(x, self.basis, self.degree)
+            condition_numbers.append(float(np.linalg.cond(basis_matrix)))
             coeffs, *_ = np.linalg.lstsq(basis_matrix, y, rcond=None)
             continuation = basis_matrix @ coeffs
             should_exercise = immediate[in_money] > continuation
@@ -81,6 +83,11 @@ class LSMCPricer:
                 "degree": self.degree,
                 "exercise_times": exercise_times,
                 "exercise_boundaries": list(reversed(boundaries)),
+                "mean_regression_condition": (
+                    float(np.mean(condition_numbers)) if condition_numbers else None
+                ),
+                "max_regression_condition": (
+                    float(np.max(condition_numbers)) if condition_numbers else None
+                ),
             },
         )
-

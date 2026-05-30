@@ -20,7 +20,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=7.4", "ruff>=0.4"]
-ml = ["torch>=2.0"]
+ml = []
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -32,4 +32,3 @@ pythonpath = ["src"]
 [tool.ruff]
 line-length = 100
 target-version = "py310"
-

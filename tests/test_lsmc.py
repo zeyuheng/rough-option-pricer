@@ -9,4 +9,4 @@ def test_lsmc_returns_positive_price() -> None:
     )
     assert result.price > 0
     assert "exercise_boundaries" in result.metadata
-
+    assert result.metadata["mean_regression_condition"] is not None

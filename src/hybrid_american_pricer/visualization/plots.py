@@ -2,6 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import matplotlib
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import pandas as pd
 
@@ -31,4 +34,3 @@ def plot_hurst_sensitivity(data: pd.DataFrame, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(output, dpi=160)
     plt.close(fig)
-

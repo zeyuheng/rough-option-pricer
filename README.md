@@ -17,7 +17,7 @@ hybrid meta-pricer with uncertainty intervals.
 ```bash
 python -m venv .venv
 .\.venv\Scripts\activate
-pip install -e ".[dev,ml]"
+pip install -e ".[dev]"
 pytest
 python -m hybrid_american_pricer.experiments.run_benchmarks
 ```
@@ -42,8 +42,12 @@ reports/                         Generated figures and tables
 ```bash
 python -m hybrid_american_pricer.experiments.generate_dataset
 python -m hybrid_american_pricer.experiments.run_benchmarks
+python -m hybrid_american_pricer.experiments.lsmc_study
+python -m hybrid_american_pricer.experiments.rough_bergomi_study
 python -m hybrid_american_pricer.experiments.train_meta_model
 python -m hybrid_american_pricer.experiments.evaluate
 python -m hybrid_american_pricer.experiments.sensitivity
 ```
 
+The dataset command writes `pricing_dataset.csv`, `train.csv`, `valid.csv`,
+`test.csv`, and a parameter distribution figure for the hybrid meta-model stage.

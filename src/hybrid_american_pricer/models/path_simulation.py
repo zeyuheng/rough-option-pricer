@@ -17,7 +17,8 @@ def simulate_black_scholes_paths(
 ) -> np.ndarray:
     """Simulate geometric Brownian motion paths shaped as (n_paths, n_steps + 1)."""
 
-    rng = np.random.default_rng(seed)
+    asset_seed = None if seed is None else seed + 1
+    rng = np.random.default_rng(asset_seed)
     dt = maturity / n_steps
     effective_paths = n_paths // 2 if antithetic else n_paths
     shocks = rng.normal(size=(effective_paths, n_steps))
@@ -68,6 +69,7 @@ def simulate_rough_bergomi_paths(
     rho: float = -0.7,
     xi0: float | None = None,
     seed: int | None = None,
+    martingale_correction: bool = True,
 ) -> tuple[np.ndarray, np.ndarray]:
     """Simulate rough Bergomi-style asset and variance paths."""
 
@@ -86,16 +88,21 @@ def simulate_rough_bergomi_paths(
     independent = rng.normal(size=(n_paths, n_steps))
     normalized_fgn = fgn / np.maximum(np.std(fgn, axis=0, keepdims=True), 1e-12)
     asset_shocks = rho * normalized_fgn + math.sqrt(max(1.0 - rho**2, 0.0)) * independent
+    variance_for_returns = np.column_stack([np.full(n_paths, xi0), variance[:, :-1]])
     log_returns = (
-        (market.rate - market.dividend - 0.5 * variance) * dt
-        + np.sqrt(variance * dt) * asset_shocks
+        (market.rate - market.dividend - 0.5 * variance_for_returns) * dt
+        + np.sqrt(variance_for_returns * dt) * asset_shocks
     )
 
     paths = np.empty((n_paths, n_steps + 1), dtype=float)
     paths[:, 0] = market.spot
     paths[:, 1:] = market.spot * np.exp(np.cumsum(log_returns, axis=1))
+    if martingale_correction:
+        times = np.linspace(0.0, maturity, n_steps + 1)
+        forwards = market.spot * np.exp((market.rate - market.dividend) * times)
+        sample_means = np.maximum(np.mean(paths, axis=0), 1e-12)
+        paths *= forwards / sample_means
     variance_paths = np.empty_like(paths)
     variance_paths[:, 0] = xi0
     variance_paths[:, 1:] = variance
     return paths, variance_paths
-

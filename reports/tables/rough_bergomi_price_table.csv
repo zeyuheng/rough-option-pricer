@@ -1,0 +1,10 @@
+model,exercise,hurst,eta,rho,price,std_error,runtime_seconds,comparison_reference,difference_vs_reference
+black_scholes_constant_vol,european,,,,5.573526022256971,,0.0002193000000261236,black_scholes_constant_vol,0.0
+binomial_tree_constant_vol,american,,,,6.089595282977953,,0.0193122000018775,binomial_tree_constant_vol,0.0
+lsmc_constant_vol,american,,,,6.102084189407314,0.05898278215654981,0.06433430000106455,binomial_tree_constant_vol,0.01248890642936118
+rough_bergomi_mc,european,0.05,1.8,-0.7,8.271799091248347,0.0638436126904793,0.10166860000026645,black_scholes_constant_vol,2.6982730689913765
+rough_bergomi_lsmc,american,0.05,1.8,-0.7,8.271799091248354,0.06384361269047936,0.17345149999891873,binomial_tree_constant_vol,2.182203808270401
+rough_bergomi_mc,european,0.1,1.8,-0.7,6.5353975843059136,0.05261563648117345,0.11104639999757637,black_scholes_constant_vol,0.9618715620489429
+rough_bergomi_lsmc,american,0.1,1.8,-0.7,6.53539758430592,0.0526156364811735,0.14595380000173463,binomial_tree_constant_vol,0.4458023013279666
+rough_bergomi_mc,european,0.3,1.8,-0.7,1.377521211271353,0.01555998314937177,0.10521169999992708,black_scholes_constant_vol,-4.196004810985618
+rough_bergomi_lsmc,american,0.3,1.8,-0.7,1.378633305894486,0.015498622954146746,0.1436736999967252,binomial_tree_constant_vol,-4.710961977083468

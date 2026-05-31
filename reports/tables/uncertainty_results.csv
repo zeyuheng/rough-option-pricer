@@ -1,0 +1,3 @@
+model,nominal,empirical_coverage,interval_width,qhat
+mc_dropout_raw,0.95,0.8333333333333334,0.7729558948155727,0.0
+mc_dropout_conformal,0.95,1.0,1.9670744983380242,0.5970593017612256

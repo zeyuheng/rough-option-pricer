@@ -1,0 +1,2 @@
+dte_bucket,total_trades,win_rate,mean_return,median_return,total_pnl,return_on_capital,profit_factor,sharpe_per_trade,max_drawdown,average_holding_days
+31-45,3.0,0.6666666666666666,0.13332037374693195,0.11048689138576777,249.9999999999999,0.0024999999999999988,15.705882352941176,1.3798724271887446,0.0,2.6666666666666665

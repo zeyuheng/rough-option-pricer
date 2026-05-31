@@ -13,8 +13,12 @@ def conformal_interval(
 ) -> tuple[np.ndarray, np.ndarray, float]:
     """Apply split conformal correction to prediction intervals."""
 
-    misses = np.maximum(lower_calibration - y_calibration, y_calibration - upper_calibration)
-    qhat = float(np.quantile(misses, np.ceil((len(misses) + 1) * (1 - alpha)) / len(misses)))
+    misses = np.maximum(
+        0.0,
+        np.maximum(lower_calibration - y_calibration, y_calibration - upper_calibration),
+    )
+    quantile_level = min(np.ceil((len(misses) + 1) * (1 - alpha)) / len(misses), 1.0)
+    qhat = float(np.quantile(misses, quantile_level))
     return lower_test - qhat, upper_test + qhat, qhat
 
 
@@ -24,4 +28,3 @@ def coverage(y_true: np.ndarray, lower: np.ndarray, upper: np.ndarray) -> float:
 
 def mean_interval_width(lower: np.ndarray, upper: np.ndarray) -> float:
     return float(np.mean(upper - lower))
-
